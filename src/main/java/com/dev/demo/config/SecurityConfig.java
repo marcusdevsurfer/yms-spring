@@ -18,6 +18,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/containers/**").permitAll() // Permit all access to /api/containers/**
+                        .requestMatchers("/api/yards/**").permitAll() // Permit all access to /api/containers/**
                         .anyRequest().authenticated() // Require authentication for any other request
                 )
                 .formLogin(form -> form
