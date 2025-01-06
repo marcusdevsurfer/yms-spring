@@ -1,6 +1,7 @@
 package com.dev.demo.service;
 
 import com.dev.demo.entity.Container;
+import com.dev.demo.entity.Stack;
 import com.dev.demo.entity.Yard;
 import com.dev.demo.repository.YardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ public class YardService {
     private YardRepository yardRepository;
     @Autowired
     private ContainerService containerService;
+    @Autowired
+    private StackService stackService;
 
     public List<Yard> getAllYards() {
         System.out.println("Getting yards....");
@@ -45,12 +48,27 @@ public class YardService {
         return "Yard with id: " + id + " deleted";
     }
 
-    public Yard addContainerToYard(String yardId, Container container){
+    public Yard addStackToYard(String yardId, Stack stack){
         Yard yard = yardRepository.findById(yardId).orElse(null);
-        if (yard != null) {
-            Container newContainer = containerService.createContainer(container);
-            yard.addContainer(newContainer);
+        if(yard != null){
+            Stack newStack = stackService.createStack(stack);
+            yard.addStack(newStack);
             yardRepository.save(yard);
+            return yard;
+        }
+        return null;
+    }
+
+    public Yard addContainerToStackInYard(String yardId, String stackId, Container container) {
+        Yard yard = yardRepository.findById(yardId).orElse(null);
+        if(yard != null) {
+            for(Stack stack : yard.getStacks()){
+                if(stack.getId().equals(stackId)){
+                    stack.addContainer(container);
+                    yardRepository.save(yard);
+                    return yard;
+                }
+            }
         }
         return yard;
     }

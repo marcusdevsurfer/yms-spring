@@ -5,36 +5,33 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
-
 @Document(collection = "yards")
 public class Yard {
     @Id
     private String id;
     private String name;
-    private List<Container> containers = new ArrayList<>();
-
+    private List<Stack> stacks = new ArrayList<>();
     public Yard() {
     }
-
     public void setId(String id) {
         this.id = id;
     }
     public String getId() {
-        return id;
+        return this.id;
     }
     public void setName(String name) {
         this.name = name;
     }
     public String getName() {
-        return name;
+        return this.name;
     }
-    public void setContainers(ArrayList<Container> containers) {
-        this.containers = containers;
+    public List<Stack> getStacks() {
+        return stacks;
     }
-    public List<Container> getContainers() {
-        return this.containers;
+    public void setStacks(List<Stack> stacks) {
+        this.stacks = stacks;
     }
-    public void addContainer(Container container) {
-        this.containers.add(container);
+    public void addStack(Stack stack) {
+        stacks.add(stack);
     }
 }
